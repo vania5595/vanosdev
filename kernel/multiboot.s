@@ -1,0 +1,17 @@
+.set MBOOT_HEADER_MAGIC, 0x1BADB002
+.set MBOOT_HEADER_FLAGS, 0x00000001
+.set MBOOT_CHECKSUM, - ( MBOOT_HEADER_MAGIC + MBOOT_HEADER_FLAGS )
+
+.extern main
+
+.int MBOOT_HEADER_MAGIC
+.int MBOOT_HEADER_FLAGS
+.int MBOOT_CHECKSUM
+
+.global	init
+
+init:
+cli
+push %ebx
+call main
+
