@@ -1,4 +1,4 @@
-#include "kernel_structure.h"
+#include "voe_api.h"
 
 extern int placement_address;
 extern void paging_init();

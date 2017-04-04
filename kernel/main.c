@@ -1,5 +1,5 @@
+#include "voe_api.h"
 #include "terminal.h"
-#include "kernel_structure.h"
 #include "ramdisk.h"
 #include "fs.h"
 #include "memory.h"
