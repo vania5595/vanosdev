@@ -1,11 +1,11 @@
 # Исходные объектные модули
-SOURCES=multiboot.o main.o terminal.o ramdisk.o fs.o memory.o voe.o  vesa.o
+SOURCES=main.o
 
 # Флаги компилятора языка C
-CFLAGS=-nostdlib -nostdinc -fno-builtin -fno-stack-protector -m32 -g
+CFLAGS=-nostdlib -nostdinc -fno-builtin -fno-stack-protector -m32 -g -I ../../appframework/include
 
 # Флаги компоновщика
-LDFLAGS=-T link.ld -m elf_i386
+LDFLAGS=-T  ../../appframework/link.ld -m elf_i386
 
 # Флаги ассемблера
 ASFLAGS=--32
@@ -15,8 +15,11 @@ all: $(SOURCES) link
 
 # Правило очистки
 clean:
-	-rm *.o kernel  
+	-rm *.o app
+
+voe_init.o:
+	as --32 ../../appframework/voe_init.s -o voe_init.o  
 
 # Правило компоновки
 link:
-	ld $(LDFLAGS) -o kernel $(SOURCES)
+	ld $(LDFLAGS) -o app $(SOURCES)

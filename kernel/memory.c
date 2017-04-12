@@ -44,7 +44,7 @@ void paging_init()
 		page_directory[i] = 0 | 2;
 	}
 	paging_map_virtual_to_phys(0, 0);
-	for(int i=0;i<1000;i++)paging_map_virtual_to_phys(i*0x400000, i*0x400000);
+	for(int i=0;i<1024;i++)paging_map_virtual_to_phys(i*0x400000, i*0x400000);
 	paging_enable();
 	char *heap_table=(char*)0x800000;
 	for(int i=0;i<64*1024;i++)heap_table[i]=0x00;

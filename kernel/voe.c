@@ -3,6 +3,7 @@
 #include "memory.h"
 #include "fs.h"
 #include "terminal.h"
+#include "vesa.h"
 
 struct voe_api voe_api_object;
 
@@ -14,8 +15,6 @@ unsigned int load_VOE(struct file voe_file){
 	short blocks_id = malloc(blocks);
 	struct voe_descriptor *vd = (struct voe_descriptor *)(blocks_id*64*1024);
 	vd->cmdline[0]='\0';
-	vd->mailbox=(void*)0;
-	vd->cache=(void*)0;
 	vd->api=&voe_api_object;
 	char *voe_code = (char*)((int)vd+sizeof(struct voe_descriptor));
 	for(int i=0;i<file_size;i++)voe_code[i]=file_read_byte(voe_file,i);
@@ -43,6 +42,7 @@ void InitAPI(struct kernel_structure *ks){
 	voe_api_object.malloc=malloc;
 	voe_api_object.putc=putc;
 	voe_api_object.load_VOE=load_VOE;
+	voe_api_object.vram=vram;
 }
 
 

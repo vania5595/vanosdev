@@ -8,6 +8,31 @@ struct mount_point
     struct file (*open_file)(void*,char*);
 }; 
 
+struct ModeInfoBlock {
+  short attributes;
+  char winA,winB;
+  short granularity;
+  short winsize;
+  short segmentA, segmentB;
+  int wtf;
+  short pitch; // bytes per scanline
+ 
+  short Xres, Yres;
+  char Wchar, Ychar, planes, bpp, banks;
+  char memory_model, bank_size, image_pages;
+  char reserved0;
+ 
+  char red_mask, red_position;
+  char green_mask, green_position;
+  char blue_mask, blue_position;
+  char rsv_mask, rsv_position;
+  char directcolor_attributes;
+ 
+  int* physbase;  
+  int reserved1;
+  short reserved2;
+};
+
 struct multiboot
 {
    int flags;
@@ -29,11 +54,12 @@ struct multiboot
    int boot_loader_name;
    int apm_table;
    int vbe_control_info;
-   int vbe_mode_info;
+   struct ModeInfoBlock *vbe_mode_info;
    int vbe_mode;
    int vbe_interface_seg;
    int vbe_interface_off;
    int vbe_interface_len;
+   long long framebuffer_addr;
 }  __attribute__((packed)); 
 
 struct kernel_structure
@@ -65,14 +91,13 @@ struct voe_api{
 	char (*file_read_byte)(struct file,int);
 	unsigned int (*load_VOE)(struct file);
 	void (*voe_jump)(unsigned int ,unsigned int ,unsigned int ,int);
+	int *vram;
 };
 
 struct voe_descriptor{
 	char cmdline[100];
 	struct voe_api *api;
-	void *mailbox;
-	void *cache;
-	char reversed[3984];
+	char reversed[3992];
 }; 
 
 #endif
